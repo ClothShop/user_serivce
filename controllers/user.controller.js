@@ -14,7 +14,7 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     if (req.body.is_changing_password === true) {
-      if (!req.body.currentPassword || !req.body.newPassword) {
+      if (!req.body.current_password || !req.body.new_password) {
         res.status(400).json({ error: 'Fill all fields' });
         return;
       }

@@ -3,10 +3,10 @@ const User = require('../models/user');
 
 const updatePassword = async (UserID, body, res) => {
   const user = await getUserById(UserID);
-  if (!await comparePassword(body.currentPassword, user.password_hash)) {
+  if (!await comparePassword(body.current_password, user.password_hash)) {
     return res.status(400).json({ success: false, message: "Invalid current password" });
   }
-  user.password_hash = await getHashedPassword(body.newPassword);
+  user.password_hash = await getHashedPassword(body.new_password);
   await user.save();
 }
 
