@@ -1,18 +1,22 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: postgres_crud
-    restart: always
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user-service
     ports:
-      - "5432:5432"
+      - "8085:8085"
+    env_file: .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: userdb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      DATABASE_URL: postgres://postgres:secret@postgres_container:5432/auth_db
+    networks:
+      - cloth-shop-network
 
 volumes:
-  postgres_data:
+  db_data:
+
+networks:
+  cloth-shop-network:
+    external: true
