@@ -1,4 +1,4 @@
-const {comparePassword, getHashedPassword} = require('../utils/bcrypt.js');
+const {comparePassword, getHashedPassword} = require('../utils/bcrypt');
 const User = require('../models/user');
 
 const updatePassword = async (UserID, body, res) => {
