@@ -13,9 +13,18 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const updated = await userService.updateUser(req.user.UserID, req.body);
-    if (!updated) return res.status(404).json({ error: 'Not found' });
-    res.json(updated);
+    if (req.body.is_changing_password === true) {
+      if (!req.body.currentPassword || !req.body.newPassword) {
+        res.status(400).json({ error: 'Fill all fields' });
+        return;
+      }
+      await userService.updatePassword(req.user.UserID, req.body, res);
+      return res.status(200).json({success: true, message: 'Password updated successfully'});
+    } else {
+      const updated = await userService.updateUser(req.user.UserID, req.body);
+      if (!updated) return res.status(404).json({ error: 'Not found' });
+      res.json(updated);
+    }
   } catch (e) {
     res.status(400).json({ error: e.message });
   }

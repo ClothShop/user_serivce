@@ -1,4 +1,15 @@
+const {comparePassword, getHashedPassword} = require('../utils/bcrypt.js');
 const User = require('../models/user');
+
+const updatePassword = async (UserID, body, res) => {
+  const user = await getUserById(UserID);
+  if (!await comparePassword(body.currentPassword, user.password_hash)) {
+    return res.status(400).json({ success: false, message: "Invalid current password" });
+  }
+  user.password_hash = await getHashedPassword(body.newPassword);
+  await user.save();
+}
+
 
 const createUser = async (data) => {
   return await User.create(data);
@@ -30,4 +41,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  updatePassword
 };
