@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
-app.use('/users', userRoutes);
+app.use('/api/v1', userRoutes);
 
 sequelize.authenticate().then(() => {
   app.listen(8085, () => console.log('Server running on port 8085'));
