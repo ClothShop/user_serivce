@@ -1,12 +1,15 @@
 const express = require('express');
-const router = express.Router();
 const userController = require('../controllers/user.controller');
+const {validateBody} = require("../middleware/validateDto");
+const {updateUserSchema} = require("../dto/user.dto");
+const {authenticateJWT, authorizeAdmin} = require("../middleware/jwt");
 
 
-router.post('/', userController.createUser);
-router.get('/', userController.getUsers);
-router.get('/:id', userController.getUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+const router = express.Router();
+
+router.get('/', authenticateJWT, authorizeAdmin, userController.getUsers);
+router.get('/me', authenticateJWT, userController.getUser);
+router.patch('/me', authenticateJWT, validateBody(updateUserSchema), userController.updateUser);
+router.delete('/me', authenticateJWT, userController.deleteUser);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-
 const User = require('../models/user');
 
 const createUser = async (data) => {
@@ -19,8 +18,7 @@ const updateUser = async (id, data) => {
   return await user.update(data);
 };
 
-const deleteUser = async (id, requester) => {
-  if (requester.role !== 'Admin') throw new Error('Unauthorized');
+const deleteUser = async (id) => {
   const user = await User.findByPk(id);
   if (!user) throw new Error('User not found');
   return await user.destroy();
