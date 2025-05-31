@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get('/admin/users', authenticateJWT, authorizeAdmin, userController.getUsers);
 router.get('/users/me', authenticateJWT, userController.getUser);
+router.get('/users/:id', authenticateJWT, userController.getUserById);
 router.patch('/users/me', authenticateJWT, validateBody(updateUserSchema), userController.updateUser);
 router.delete('/users/me', authenticateJWT, userController.deleteUser);
 

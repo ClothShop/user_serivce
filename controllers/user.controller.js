@@ -11,6 +11,12 @@ exports.getUser = async (req, res) => {
   res.json(user);
 };
 
+exports.getUserById = async (req, res) => {
+  const user = await userService.getUserById(req.params.id);
+  if (!user) return res.status(404).json({ error: 'Not found' });
+  res.json(user);
+};
+
 exports.updateUser = async (req, res) => {
   try {
     if (req.body.is_changing_password === true) {
